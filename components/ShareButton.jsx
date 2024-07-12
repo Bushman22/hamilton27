@@ -2,7 +2,7 @@ import { CiShare2 } from "react-icons/ci";
 import { FiCopy } from "react-icons/fi";
 import { FaInstagram } from "react-icons/fa";
 import { FaFacebook } from "react-icons/fa";
-import { FaWhatsapp } from "react-icons/fa"
+import { FaWhatsapp } from "react-icons/fa";
 import { Modal, ModalContent, ModalHeader, ModalBody, Button, useDisclosure, Input } from "@nextui-org/react";
 
 const ShareButton = ({ url }) => {
@@ -27,11 +27,8 @@ const ShareButton = ({ url }) => {
                 )}`;
                 break;
             case "instagram":
-                shareUrl = `https://www.instagram.com/?url=${encodeURIComponent(
-                    url
-                )}`;
+                shareUrl = `instagram://story-camera?background_image=${encodeURIComponent(url)}`;
                 break;
-            // Add more cases for other platforms as needed
             default:
                 break;
         }
@@ -42,12 +39,28 @@ const ShareButton = ({ url }) => {
         }
     };
 
+    const shareOnMobile = async () => {
+        if (navigator.share) {
+            try {
+                await navigator.share({
+                    title: 'Check out this room',
+                    url: url
+                });
+                onClose();
+            } catch (error) {
+                console.error("Error sharing:", error);
+            }
+        } else {
+            onOpen();
+        }
+    };
+
     return (
         <>
             <Button
                 variant="bordered"
                 className="border-black"
-                onPress={onOpen}
+                onPress={shareOnMobile}
                 startContent={<CiShare2 className="w-6 h-6" />}
             >
                 Share
@@ -67,7 +80,7 @@ const ShareButton = ({ url }) => {
                                         readOnly
                                     />
                                     <Button
-                                        isIconOnly color="default" aria-label="Like"
+                                        isIconOnly color="default" aria-label="Copy URL"
                                         onPress={copyUrlToClipboard}
                                     >
                                         <FiCopy className="w-5 h-5" />
@@ -78,6 +91,7 @@ const ShareButton = ({ url }) => {
                                         variant="icon"
                                         className=""
                                         onPress={() => shareOnSocialMedia("whatsapp")}
+                                        aria-label="Share on WhatsApp"
                                     >
                                         <FaWhatsapp className="text-green-500 w-8 h-8" />
                                         WhatsApp
@@ -86,16 +100,18 @@ const ShareButton = ({ url }) => {
                                         variant="icon"
                                         className=""
                                         onPress={() => shareOnSocialMedia("facebook")}
+                                        aria-label="Share on Facebook"
                                     >
-                                        <FaFacebook className="text-blue-500 w-8 h-8"/>
+                                        <FaFacebook className="text-blue-500 w-8 h-8" />
                                         Facebook
                                     </Button>
                                     <Button
                                         variant="icon"
                                         className=""
                                         onPress={() => shareOnSocialMedia("instagram")}
+                                        aria-label="Share on Instagram"
                                     >
-                                        <FaInstagram className="text-pink-500 w-8 h-8"/>
+                                        <FaInstagram className="text-pink-500 w-8 h-8" />
                                         Instagram
                                     </Button>
                                 </div>
