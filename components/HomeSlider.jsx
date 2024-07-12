@@ -24,7 +24,7 @@ const HomeSlider = () => {
         <div className="carouselContainer max-h-[400px]">
             <Slider {...settings} className="gap-2">
                 {room.map((items, index) => (
-                    <div key={index} className="rounded-xl p-2 focus:outline-none">
+                    <div key={items.id} className="rounded-xl p-2 focus:outline-none">
                         <Image
                             removeWrapper
                             className='w-full h-full rounded-xl h-[400px] object-cover'
