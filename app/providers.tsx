@@ -16,7 +16,7 @@ export function Providers({ children, themeProps }: ProvidersProps) {
 
   return (
     <NextUIProvider navigate={router.push}>
-      <NextThemesProvider {...themeProps} attribute="class" defaultTheme="dark">{children}</NextThemesProvider>
+      <NextThemesProvider {...themeProps} enableSystem defaultTheme="dark">{children}</NextThemesProvider>
     </NextUIProvider>
   );
 }
