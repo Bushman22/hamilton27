@@ -78,8 +78,8 @@ function Gallery() {
             <div className="block md:hidden mb-4 mt-4 flex items-center gap-2">
                 <h1>Filter - </h1>
                 <ButtonGroup>
-                    <Button className='w-[150px]'>{currentFilterLabel}</Button>
-                    <Dropdown placement="bottom-end">
+                    <Button className='w-[150px] border-r'>{currentFilterLabel}</Button>
+                    <Dropdown placement="bottom-end" >
                         <DropdownTrigger>
                             <Button isIconOnly>
                                 <FaChevronDown />
@@ -126,7 +126,7 @@ function Gallery() {
             <Modal isOpen={isOpen} onOpenChange={onOpenChange} size='3xl' className='px-0 max-h-[90%]' placement='center'>
                 <ModalContent>
                     <ModalHeader>
-                        {/* Header content */}
+                     
                     </ModalHeader>
                     <ModalBody className='px-5 pb-2'>
                         <div className='w-full'>
@@ -140,7 +140,7 @@ function Gallery() {
                         </div>
                     </ModalBody>
                     <ModalFooter>
-                        {/* Footer content */}
+                        
                     </ModalFooter>
                 </ModalContent>
             </Modal>

@@ -49,7 +49,7 @@ export default function RoomCard({ title, price1, price2, image, rating, size, b
                         <div className="grid grid-cols-3 gap-2">
                             <div className="w-full h-10 bg-default-200 rounded-xl flex items-center justify-center gap-2">
                                 <IoBedOutline className="w-6 h-6" />
-                                <span className="text-tiny">{beds} {beds > 1 ? 'beds' : 'bed'}</span>
+                                <span className="text-tiny">1 {beds > 1 ? 'beds' : 'bed'}</span>
                             </div>
                             <div className="w-full h-10 bg-default-200 rounded-xl flex items-center justify-center gap-2">
                                 <IoPersonOutline className="w-6 h-6" />
