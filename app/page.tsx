@@ -7,6 +7,19 @@ import { IoIosPricetag } from "react-icons/io";
 import { IoBed } from "react-icons/io5";
 import HomeRoomsSlider from '@/components/HomeRoomsSlider'
 import Reviews from '@/components/Reviews'
+import { Metadata, Viewport } from "next";
+import { siteConfig } from '@/config/site';
+
+export const metadata: Metadata = {
+  title: {
+    default: siteConfig.name,
+    template: `%s - ${siteConfig.name}`,
+  },
+  description: siteConfig.description,
+  icons: {
+    icon: "/favicon.ico",
+  },
+};
 
 function Home() {
   return (

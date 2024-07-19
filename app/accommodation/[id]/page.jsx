@@ -131,7 +131,7 @@ function RoomsPage() {
             <meta name="robots" content="index, follow" />
             <meta property="og:title" content={`27 on Hamilton - ${rooms.title}`} />
             <meta property="og:description" content={`Book your stay at 27 on Hamilton. Enjoy our ${rooms.title} with amenities like beds, WiFi, and more. Contact us for more details.`} />
-            <meta property="og:image" content={rooms.images[0]?.href || '/placeholder.jpg'} />
+            <meta property="og:image" content={rooms.images[0].href} />
             <meta property="og:url" content={typeof window !== 'undefined' ? window.location.href : ''} />
             <meta property="og:type" content="website" />
             <div>
