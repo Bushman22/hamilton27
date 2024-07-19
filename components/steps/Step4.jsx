@@ -4,8 +4,7 @@
 import React, { useState } from 'react';
 import { Button, Spacer, Card, CardBody, Textarea, CardFooter } from '@nextui-org/react';
 
-const Step4 = ({ prevStep, formData, setFormData, sendFormData }) => {
-    const [isLoading, setIsLoading] = useState(false);
+const Step4 = ({ prevStep, formData, setFormData, isLoading, handleSubmit, error }) => {
 
     const handleChange = (e) => {
         const { name, value } = e.target;
@@ -15,15 +14,6 @@ const Step4 = ({ prevStep, formData, setFormData, sendFormData }) => {
         }));
     };
 
-    const handleSubmit = () => {
-        setIsLoading(true);
-
-        // Simulate sending data for 2 seconds
-        setTimeout(() => {
-            sendFormData(formData);
-            setIsLoading(false);
-        }, 2000);
-    };
 
     return (
         <Card className='h-[400px]'>
@@ -42,6 +32,11 @@ const Step4 = ({ prevStep, formData, setFormData, sendFormData }) => {
                     />
                 </div>
             </CardBody>
+            {error && (
+                    <div className='flex justify-center'>
+                        <h1 className='text-red-500'>Error submitting form, please try again or check your connection.</h1>
+                    </div>
+                )}
             <CardFooter className='flex justify-end'>
                 <div className='flex justify-end gap-2'>
                     <Button flat onPress={prevStep} className='mr-[10px]'>

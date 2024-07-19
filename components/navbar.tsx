@@ -61,24 +61,24 @@ export const Navbar = () => {
         className="hidden lg:flex basis-1/5 sm:basis-full"
         justify="end"
       >
-        <NavbarItem className=" hidden sm:flex gap-2">
+        <NavbarItem className="hidden sm:flex gap-2">
           <Tooltip content="Airbnb">
-            <Link isExternal aria-label="Twitter" href=''>
+            <Link isExternal aria-label="airbnb" href='https://www.airbnb.co.za/rooms/699795123440362177'>
               <TbBrandAirbnb className="text-default-500 w-6 h-6" />
             </Link>
           </Tooltip>
           <Tooltip content="Instagram">
-            <Link isExternal aria-label="Discord" href=''>
+            <Link isExternal aria-label="instagram" href=''>
               <FaInstagram className="text-default-500 w-6 h-6" />
             </Link>
           </Tooltip>
           <Tooltip content="Facebook">
-            <Link isExternal aria-label="Github" href=''>
+            <Link isExternal aria-label="facebook" href=''>
               <TiSocialFacebookCircular className="text-default-500 w-7 h-7" />
             </Link>
           </Tooltip>
         </NavbarItem>
-        <NavbarItem className=" md:flex">
+        <NavbarItem className="md:flex">
           <Button
             as={Link}
             className="text-sm font-normal bg-blue-300 px-10"

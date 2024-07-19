@@ -4,7 +4,8 @@ import { useParams } from 'next/navigation';
 import { useEffect, useState } from 'react';
 import { room } from '@/lib/data.ts';
 import StarRating from '@/components/StarRating';
-import { Modal, ModalContent, ModalHeader, ModalBody, Button, useDisclosure, Image, Card, CardBody, Input, Link } from "@nextui-org/react";
+import { Modal, ModalContent, ModalHeader, ModalBody, Button, useDisclosure, Image, Card, CardBody, Input, Link, DatePicker } from "@nextui-org/react";
+import { Dropdown, DropdownItem, DropdownTrigger, DropdownMenu } from '@nextui-org/react';
 import ModalSlider from '@/components/ModalSlider';
 import { IoBedOutline, IoPersonOutline, IoWifiOutline } from "react-icons/io5";
 import { SlSizeFullscreen } from "react-icons/sl";
@@ -13,6 +14,12 @@ import { PiBathtubLight } from "react-icons/pi";
 import { FaAirbnb } from "react-icons/fa";
 import { GoArrowLeft } from "react-icons/go";
 import { IoMdPerson } from 'react-icons/io';
+import emailjs from 'emailjs-com';
+import { parseDate, getLocalTimeZone } from '@internationalized/date';
+import { useDateFormatter } from '@react-aria/i18n';
+import { MdKeyboardArrowDown } from "react-icons/md";
+
+const getCurrentDate = () => parseDate(new Date().toISOString().split('T')[0]);
 
 function RoomsPage() {
     const params = useParams();
@@ -21,13 +28,20 @@ function RoomsPage() {
     const { isOpen, onOpen, onOpenChange } = useDisclosure();
     const [isLoading, setIsLoading] = useState(false);
     const [isSubmitted, setIsSubmitted] = useState(false);
+    const [error, setError] = useState(false)
 
     const [formData, setFormData] = useState({
         selectedRoom: '',
         name: '',
         email: '',
         phone: '',
+        departureDate: getCurrentDate(),
+        returnDate: getCurrentDate(),
+        guests: 1,
     });
+
+    const formatter = useDateFormatter({ dateStyle: 'full' });
+
 
     useEffect(() => {
         if (id) {
@@ -54,19 +68,60 @@ function RoomsPage() {
         }));
     };
 
+    const handleDateChange = (date, field) => {
+        setFormData((prev) => ({
+            ...prev,
+            [field]: date,
+        }));
+    };
+
+    const handleGuestsChange = (keys) => {
+        const key = Array.from(keys)[0];
+        const guests = parseInt(key, 10);
+        if (!isNaN(guests) && guests !== formData.guests) {
+            setFormData((prev) => ({
+                ...prev,
+                guests,
+            }));
+        }
+    };
+
     const handleSubmit = async (e) => {
+        setError(false)
         e.preventDefault();
         setIsLoading(true);
-        console.log('Form Data:', formData);
-        await new Promise((resolve) => setTimeout(resolve, 2000));
-        setIsLoading(false);
-        setIsSubmitted(true);
-        setFormData({
-            selectedRoom: rooms.title,
-            name: '',
-            email: '',
-            phone: '',
-        });
+
+        await new Promise(resolve => setTimeout(resolve, 2000));
+
+        try {
+            const templateParams = {
+                room: formData.selectedRoom,
+                name: formData.name,
+                email: formData.email,
+                phone: formData.phone,
+                departureDate: formData.departureDate ? formatter.format(formData.departureDate.toDate(getLocalTimeZone())) : '',
+                returnDate: formData.returnDate ? formatter.format(formData.returnDate.toDate(getLocalTimeZone())) : '',
+                guests: formData.guests,
+            };
+
+            await emailjs.send('service_l2hwszn', 'template_181vfgq', templateParams, 'UyWLGLBoUFeNL0ipI');
+
+            setIsSubmitted(true);
+            setFormData({
+                selectedRoom: rooms.title,
+                name: '',
+                email: '',
+                phone: '',
+                departureDate: getCurrentDate(),
+                returnDate: getCurrentDate(),
+                guests: 1,
+            });
+        } catch (error) {
+            setError(true);
+            console.error('Failed to send email:', error);
+        } finally {
+            setIsLoading(false);
+        }
     };
 
     return (
@@ -235,7 +290,6 @@ function RoomsPage() {
                                                 <p className=' mb-3 text-tiny mb-5 text-default-500'>we will get back to you as soon as possible</p>
                                             </div>
                                         </div>
-                                        <Input type='text' label="Selected room" value={rooms.title} readOnly />
                                         <Input
                                             className=''
                                             type="text"
@@ -263,6 +317,41 @@ function RoomsPage() {
                                             onChange={handleChange}
                                             required
                                         />
+                                        <div className='grid grid-cols-1 md:grid-cols-2 gap-2'>
+                                            <DatePicker
+                                                className="w-full"
+                                                label="Departure Date"
+                                                value={formData.departureDate}
+                                                onChange={(date) => handleDateChange(date, 'departureDate')}
+                                            />
+                                            <DatePicker
+                                                className="w-full"
+                                                label="Return Date"
+                                                value={formData.returnDate}
+                                                onChange={(date) => handleDateChange(date, 'returnDate')}
+                                            />
+                                        </div>
+                                        <div className='grid grid-cols-2 items-center'>
+                                            <h1 className='flex justify-center max-md:text-sm'>Number of guests: </h1>
+                                            <Dropdown>
+                                                <DropdownTrigger>
+                                                    <Button className='bg-default-200' endContent={<MdKeyboardArrowDown className='w-5 h-5'/>}>
+                                                        {formData.guests === 1 ? '1 Guest' : '2 Guests'}
+                                                    </Button>
+                                                </DropdownTrigger>
+                                                <DropdownMenu
+                                                    aria-label="Number of guests"
+                                                    selectionMode="single"
+                                                    selectedKeys={[`${formData.guests}`]}
+                                                    onSelectionChange={(keys) => handleGuestsChange(keys)}
+                                                >
+                                                    <DropdownItem key="1">1 Guest</DropdownItem>
+                                                    {rooms.price2 && (
+                                                        <DropdownItem key="2">2 Guests</DropdownItem>
+                                                    )}
+                                                </DropdownMenu>
+                                            </Dropdown>
+                                        </div>
                                         <Button className='bg-blue-300 w-full py-2' size='lg' type='submit' isLoading={isLoading}>
                                             {isLoading ? (
                                                 <span>Loading</span>
@@ -276,6 +365,11 @@ function RoomsPage() {
                             </form>
                         </CardBody>
                     </Card>
+                    {error && (
+                        <div className='flex justify-center text-center mt-1'>
+                            <h1 className='text-red-500 text-sm'>Error submitting form, please try again or check your connection.</h1>
+                        </div>
+                    )}
                 </div>
             </div>
         </div>

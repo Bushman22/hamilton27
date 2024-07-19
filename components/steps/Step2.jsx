@@ -78,7 +78,7 @@ const Step2 = ({ nextStep, prevStep, formData, setFormData }) => {
           {selectedRoom && (
             <div className='mt-5 grid grid-cols-2 gap-5'>
               <div>
-                <Image className='' removeWrapper src={selectedRoom.images[0]?.href} alt="Selected Room" />
+                <Image className='h-[200px] max-h-[200px] w-full object-cover' removeWrapper src={selectedRoom.images[0]?.href} alt="Selected Room" />
               </div>
               <div className=''>
                 <h1 className='font-semibold'>You have selected: </h1>
