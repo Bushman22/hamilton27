@@ -25,7 +25,7 @@ export const metadata = {
     description: siteConfig.description,
     images: [
       {
-        url: "https://www.go4itafrica.com/images/Room1/one.jpeg",
+        url: "https://www.27hamilton.co.za/images/Room1/one.jpeg",
         alt: "Open Graph Image",
       },
     ],
