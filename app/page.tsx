@@ -10,7 +10,7 @@ import Reviews from '@/components/Reviews'
 import { Metadata, Viewport } from "next";
 import { siteConfig } from '@/config/site';
 
-export const metadata: Metadata = {
+export const metadata = {
   title: {
     default: siteConfig.name,
     template: `%s - ${siteConfig.name}`,
@@ -18,6 +18,19 @@ export const metadata: Metadata = {
   description: siteConfig.description,
   icons: {
     icon: "/favicon.ico",
+  },
+  openGraph: {
+    url: "https://www.27hamilton.co.za",
+    title: siteConfig.name,
+    description: siteConfig.description,
+    images: [
+      {
+        url: "https://www.go4itafrica.com/images/Room1/one.jpeg",
+        alt: "Open Graph Image",
+      },
+    ],
+    siteName: siteConfig.name,
+    locale: "en_ZA",
   },
 };
 

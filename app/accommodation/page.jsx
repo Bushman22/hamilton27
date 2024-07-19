@@ -3,6 +3,8 @@ import RoomCard from '@/components/RoomCard'
 import { title, subtitle } from '@/components/primitives'
 import { room } from '@/lib/data'
 
+
+
 function Accommodation() {
     return (
         <div>
