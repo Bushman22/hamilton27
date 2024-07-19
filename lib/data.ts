@@ -14,6 +14,7 @@ interface RoomItems {
     bathroom: string;
     wifi: string;
     airbnb: string;
+    metaImage: string;
     images: { href: string }[];
 }
 
@@ -34,6 +35,7 @@ export const room = [
         bathroom: "1 bathroom (shower only)",
         wifi: "Free Wifi",
         airbnb: "https://www.airbnb.co.za/rooms/17012416",
+        metaImage: "/images/Room1/one.jpeg",
         images: [
             { href: "/images/Room1/one.jpeg" },
             { href: "/images/Room1/two.jpeg" },
@@ -58,6 +60,7 @@ export const room = [
         bathroom: "1 bathroom (shower only)",
         wifi: "Free Wifi",
         airbnb: "https://www.airbnb.co.za/rooms/36326572",
+        metaImage: "/images/Room2/one.jpg",
         images: [
             { href: "/images/Room2/one.jpg" },
             { href: "/images/Room2/two.jpg" },
@@ -89,6 +92,7 @@ export const room = [
         bathroom: "1 bathroom (shower only)",
         wifi: "Free Wifi",
         airbnb: "https://www.airbnb.co.za/rooms/36511784",
+        metaImage: "/images/Room3/one.jpg",
         images: [
             { href: "/images/Room3/one.jpg" },
             { href: "/images/Room3/two.jpg" },
@@ -118,6 +122,7 @@ export const room = [
         bathroom: "1 bathroom (shower only)",
         wifi: "Free Wifi",
         airbnb: "https://www.airbnb.co.za/rooms/699795123440362177",
+        metaImage: "/images/Room4/one.jpg",
         images: [
             { href: "/images/Room4/one.jpg" },
             { href: "/images/Room4/two.jpg" },
@@ -146,6 +151,7 @@ export const room = [
         bathroom: "1 bathroom (shower only)",
         wifi: "Free Wifi",
         airbnb: "https://www.airbnb.co.za/rooms/702175776767245666",
+        metaImage: "/images/Room5/one.jpg",
         images: [
             { href: "/images/Room5/one.jpg" },
             { href: "/images/Room5/two.jpg" },
@@ -174,6 +180,7 @@ export const room = [
         bathroom: "1 bathroom (shower only)",
         wifi: "Free Wifi",
         airbnb: "https://www.airbnb.co.za/rooms/699794699996472553",
+        metaImage: "/images/Room6/one.jpg",
         images: [
             { href: "/images/Room6/one.jpg" },
             { href: "/images/Room6/two.jpg" },
@@ -201,6 +208,7 @@ export const room = [
         bathroom: "1 bathroom (shower only)",
         wifi: "Free Wifi",
         airbnb: "https://www.airbnb.co.za/rooms/702111225031630801",
+        metaImage: "/images/Room7/one.jpg",
         images: [
             { href: "/images/Room7/one.jpg" },
             { href: "/images/Room7/two.jpg" },
