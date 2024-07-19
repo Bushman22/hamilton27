@@ -18,6 +18,7 @@ import emailjs from 'emailjs-com';
 import { parseDate, getLocalTimeZone } from '@internationalized/date';
 import { useDateFormatter } from '@react-aria/i18n';
 import { MdKeyboardArrowDown } from "react-icons/md";
+import Head from 'next/head';
 
 const getCurrentDate = () => parseDate(new Date().toISOString().split('T')[0]);
 
@@ -126,16 +127,15 @@ function RoomsPage() {
 
     return (
         <>
-            <title>
-            {`27 on Hamilton - ${rooms.title}`}
-            </title>
-            <meta name="description" content={rooms.description} />
-            <meta property="og:title" content={rooms.title}/>
-            <meta property="og:description" content={rooms.description} />
-            <meta property="og:type" content="article" />
-            <meta property="og:url" content={`https://yourwebsite.com/blogs/${rooms.slug}`} />
-            <meta property="og:image" content={`https://27hamilton.co.za${rooms.images[0].href}`}/>
-
+            <Head>
+                <title>27 on Hamilton - {rooms.title}</title>
+                <meta name="description" content={rooms.description} />
+                <meta property="og:title" content={rooms.title} />
+                <meta property="og:description" content={rooms.description} />
+                <meta property="og:type" content="article" />
+                <meta property="og:url" content={`https://www.27hamilton.co.za/accommodation/${rooms.slug}`} />
+                <meta property="og:image" content={`https://www.27hamilton.co.za${rooms.images[0].href}`} />
+            </Head>
             <div>
                 <Link href="/accommodation" color='foreground'>
                     <div className='flex gap-2'>
