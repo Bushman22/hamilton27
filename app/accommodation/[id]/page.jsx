@@ -125,16 +125,19 @@ function RoomsPage() {
         }
     };
 
+    const metaImage = `https://27hamilton.co.za${rooms.images[0].href}`;
+
     return (
         <>
             <title>27 on Hamilton - {rooms.title}</title>
+            <meta property="og:type" content="website" />
+            <meta property="og:image" content={metaImage} />
             <meta name="description" content={rooms.description} />
             <meta property="og:title" content={rooms.title} />
             <meta property="og:description" content={rooms.description} />
-            <meta property="og:type" content="website" />
+
             <meta property="og:url" content={`https://27hamilton.co.za/accommodation/${rooms.slug}`} />
-            <meta property="og:image" content={`https://27hamilton.co.za${rooms.images[0].href}`} />
-            
+
             <div>
                 <Link href="/accommodation" color='foreground'>
                     <div className='flex gap-2'>
