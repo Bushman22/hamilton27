@@ -126,14 +126,16 @@ function RoomsPage() {
 
     return (
         <>
-            <title>{`27 on Hamilton - ${rooms.title}`}</title>
+            <title>
+            {`27 on Hamilton - ${rooms.title}`}
+            </title>
             <meta name="description" content={rooms.description} />
-            <meta property="og:title" content={rooms.title} />
-            <meta property="og:description" content={rooms.description} />
-            <meta property="og:type" content="website" />
-            <meta property="og:url" content={`https://27hamilton.co.za/accommodation/${rooms.slug}`} />
-            <meta property="og:image" content={`https://27hamilton.co.za${rooms.images[0].href}`} />
-            <meta property="og:type" content="website" />
+            <meta property="og:title" content={rooms.title}/>
+            <meta property="og:description" content={truncatedDescription} />
+            <meta property="og:type" content="article" />
+            <meta property="og:url" content={`https://yourwebsite.com/blogs/${rooms.slug}`} />
+            <meta property="og:image" content={`https://27hamilton.co.za${rooms.images[0].href}`}/>
+
             <div>
                 <Link href="/accommodation" color='foreground'>
                     <div className='flex gap-2'>
