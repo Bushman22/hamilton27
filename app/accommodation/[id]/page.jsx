@@ -43,13 +43,13 @@ function RoomsPage() {
         guests: 1,
     });
 
+    const formatter = useDateFormatter({ dateStyle: 'full' });
+
     const Data = RoomData.find((b) => b.slug === slug);
 
     if (!Data) {
         return <div>Room not found</div>;
     }
-
-    const formatter = useDateFormatter({ dateStyle: 'full' });
 
     if (!slug) {
         return <div>Loading...</div>;
@@ -124,7 +124,7 @@ function RoomsPage() {
 
     return (
         <>
-            <title>{post.title}</title>
+            <title>{Data.title}</title>
             <meta name="description" content={Data.description} />
             <meta property="og:title" content={Data.title} />
             <meta property="og:description" content={Data.description} />
