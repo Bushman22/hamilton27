@@ -3,13 +3,15 @@ import { FiCopy } from "react-icons/fi";
 import { FaInstagram } from "react-icons/fa";
 import { FaFacebook } from "react-icons/fa";
 import { FaWhatsapp } from "react-icons/fa";
-import { Modal, ModalContent, ModalHeader, ModalBody, Button, useDisclosure, Input } from "@nextui-org/react";
+import { Modal, ModalContent, ModalHeader, ModalBody, Button, useDisclosure, Input, Tooltip } from "@nextui-org/react";
+import toast from "react-hot-toast";
 
 const ShareButton = ({ url }) => {
     const { isOpen, onOpen, onClose } = useDisclosure();
 
     const copyUrlToClipboard = () => {
         navigator.clipboard.writeText(url);
+        toast.success('Copied Url')
         onClose();
     };
 
@@ -79,12 +81,14 @@ const ShareButton = ({ url }) => {
                                         value={url}
                                         readOnly
                                     />
-                                    <Button
-                                        isIconOnly color="default" aria-label="Copy URL"
-                                        onPress={copyUrlToClipboard}
-                                    >
-                                        <FiCopy className="w-5 h-5" />
-                                    </Button>
+                                    <Tooltip content="Copy Url">
+                                        <Button
+                                            isIconOnly color="default" aria-label="Copy URL"
+                                            onPress={copyUrlToClipboard}
+                                        >
+                                            <FiCopy className="w-5 h-5" />
+                                        </Button>
+                                    </Tooltip>
                                 </div>
                                 <div className="flex flex-col gap-4 mt-4 items-start">
                                     <Button

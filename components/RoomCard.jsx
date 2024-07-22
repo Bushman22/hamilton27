@@ -6,7 +6,6 @@ import { SlSizeFullscreen } from "react-icons/sl";
 import { IoPersonOutline } from "react-icons/io5";
 import { IoMdPerson } from "react-icons/io";
 
-
 export default function RoomCard({ title, price1, price2, image, rating, size, beds, guest, slug }) {
     return (
         <Link href={`/accommodation/${slug}`}>

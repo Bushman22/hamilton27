@@ -9,6 +9,7 @@ import Completion from './steps/Completion';
 import { parseDate, getLocalTimeZone } from '@internationalized/date';
 import { useDateFormatter } from '@react-aria/i18n';
 import emailjs from 'emailjs-com';
+import toast from 'react-hot-toast';
 
 const getCurrentDate = () => parseDate(new Date().toISOString().split('T')[0]);
 
@@ -78,10 +79,12 @@ const ContactForm = () => {
             };
 
             await emailjs.send('service_l2hwszn', 'template_zp3bhri', templateParams, 'UyWLGLBoUFeNL0ipI');
+            toast.success('Sent Successfully');
             nextStep(1);
 
         } catch (error) {
-            setError(true)
+            setError(true);
+            toast.error('Failed to Send');
             console.error('Failed to send email:', error);
         } finally {
             setIsLoading(false)

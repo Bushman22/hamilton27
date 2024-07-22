@@ -1,7 +1,7 @@
 "use client";
 
 import { useParams } from 'next/navigation';
-import { useEffect, useState } from 'react';
+import { useState } from 'react';
 import { room } from '@/lib/data.ts';
 import StarRating from '@/components/StarRating';
 import { Modal, ModalContent, ModalHeader, ModalBody, Button, useDisclosure, Image, Card, CardBody, Input, Link, DatePicker } from "@nextui-org/react";
@@ -18,14 +18,16 @@ import emailjs from 'emailjs-com';
 import { parseDate, getLocalTimeZone } from '@internationalized/date';
 import { useDateFormatter } from '@react-aria/i18n';
 import { MdKeyboardArrowDown } from "react-icons/md";
-import Head from 'next/head';
+import toast from 'react-hot-toast';
 
 const getCurrentDate = () => parseDate(new Date().toISOString().split('T')[0]);
 
+const RoomData = room;
+
 function RoomsPage() {
     const params = useParams();
-    const { id } = params;
-    const [rooms, setRooms] = useState(null);
+    const slug = params.id;
+
     const { isOpen, onOpen, onOpenChange } = useDisclosure();
     const [isLoading, setIsLoading] = useState(false);
     const [isSubmitted, setIsSubmitted] = useState(false);
@@ -41,24 +43,16 @@ function RoomsPage() {
         guests: 1,
     });
 
+    const Data = RoomData.find((b) => b.slug === slug);
+
+    if (!Data) {
+        return <div>Room not found</div>;
+    }
+
     const formatter = useDateFormatter({ dateStyle: 'full' });
 
-
-    useEffect(() => {
-        if (id) {
-            const foundRoom = room.find((p) => p.slug === id);
-            if (foundRoom) {
-                setRooms(foundRoom);
-                setFormData((prev) => ({
-                    ...prev,
-                    selectedRoom: foundRoom.title
-                }));
-            }
-        }
-    }, [id]);
-
-    if (!rooms) {
-        return <div className='h-screen'>Loading...</div>;
+    if (!slug) {
+        return <div>Loading...</div>;
     }
 
     const handleChange = (e) => {
@@ -108,8 +102,9 @@ function RoomsPage() {
             await emailjs.send('service_l2hwszn', 'template_181vfgq', templateParams, 'UyWLGLBoUFeNL0ipI');
 
             setIsSubmitted(true);
+            toast.success('Sent Successfully');
             setFormData({
-                selectedRoom: rooms.title,
+                selectedRoom: Data.title,
                 name: '',
                 email: '',
                 phone: '',
@@ -119,6 +114,7 @@ function RoomsPage() {
             });
         } catch (error) {
             setError(true);
+            toast.error('Failed to send');
             console.error('Failed to send email:', error);
         } finally {
             setIsLoading(false);
@@ -128,6 +124,14 @@ function RoomsPage() {
 
     return (
         <>
+            <title>{post.title}</title>
+            <meta name="description" content={Data.description} />
+            <meta property="og:title" content={Data.title} />
+            <meta property="og:description" content={Data.description} />
+            <meta property="og:type" content="website" />
+            <meta property="og:url" content={`https://27hamilton.co.za/${Data.slug}`} />
+            <meta property="og:image" content={`https://27hamilton.co.za${Data.image[0].href}`} />
+
             <div>
                 <Link href="/accommodation" color='foreground'>
                     <div className='flex gap-2'>
@@ -138,24 +142,24 @@ function RoomsPage() {
                 <div className='md:flex justify-between items-end'>
                     <div>
                         <div className='flex items-center gap-1'>
-                            <StarRating rating={rooms.rating} />
-                            {rooms.rating}
+                            <StarRating rating={Data.rating} />
+                            {Data.rating}
                         </div>
-                        <h1 className='font-semibold text-2xl my-2'>27 on Hamilton - {rooms.title}</h1>
+                        <h1 className='font-semibold text-2xl my-2'>27 on Hamilton - {Data.title}</h1>
                         <div className='flex items-center gap-10'>
-                            {rooms.price1 && (
+                            {Data.price1 && (
                                 <div className="flex justify-start my-1 ">
                                     <p className="py-1 flex items-center">
                                         <IoMdPerson className="w-5 h-5 mr-2" />
-                                        <span className='text-semibold text-xl'>{rooms.price1}</span>
+                                        <span className='text-semibold text-xl'>{Data.price1}</span>
                                     </p>
                                 </div>
                             )}
-                            {rooms.price2 && (
+                            {Data.price2 && (
                                 <div className="flex justify-start my-1 ">
                                     <p className="py-1 flex items-center">
                                         <IoMdPerson className="w-5 h-5 mr-2" />
-                                        <span className='text-semibold text-xl'>{rooms.price2}</span>
+                                        <span className='text-semibold text-xl'>{Data.price2}</span>
                                     </p>
                                 </div>
                             )}
@@ -163,7 +167,7 @@ function RoomsPage() {
                         </div>
                     </div>
                     <div className='flex items-center gap-2 max-md:mt-5'>
-                        <Button variant='bordered' as={Link} href={rooms.airbnb} className='border-black' isExternal startContent={<FaAirbnb className='w-6 h-6' />}>
+                        <Button variant='bordered' as={Link} href={Data.airbnb} className='border-black' isExternal startContent={<FaAirbnb className='w-6 h-6' />}>
                             View on Airbnb
                         </Button>
                         <ShareButton url={typeof window !== 'undefined' ? window.location.href : ''} />
@@ -175,7 +179,7 @@ function RoomsPage() {
                     <div className='w-full h-full md:max-h-[450px] max-h-[200px]'>
                         <Image
                             removeWrapper
-                            src={rooms.images[0].href}
+                            src={Data.images[0].href}
                             alt=''
                             className='w-full h-full object-cover'
                         />
@@ -184,7 +188,7 @@ function RoomsPage() {
                         <div className='h-full row-span-1'>
                             <Image
                                 removeWrapper
-                                src={rooms.images[1].href}
+                                src={Data.images[1].href}
                                 alt=''
                                 className='w-full object-cover h-full'
                             />
@@ -193,7 +197,7 @@ function RoomsPage() {
                             <div className='w-full'>
                                 <Image
                                     removeWrapper
-                                    src={rooms.images[3].href}
+                                    src={Data.images[3].href}
                                     alt=''
                                     className='w-full object-cover h-full'
                                 />
@@ -201,7 +205,7 @@ function RoomsPage() {
                             <div className='w-full'>
                                 <Image
                                     removeWrapper
-                                    src={rooms.images[4].href}
+                                    src={Data.images[4].href}
                                     alt=''
                                     className='w-full object-cover h-full'
                                 />
@@ -212,10 +216,10 @@ function RoomsPage() {
                                 {(onClose) => (
                                     <>
                                         <ModalHeader className='pb-0'>
-                                            <h1>{rooms.title}</h1>
+                                            <h1>{Data.title}</h1>
                                         </ModalHeader>
                                         <ModalBody className='pb-20 pt-0 px-0 m-0'>
-                                            <ModalSlider images={rooms.images} />
+                                            <ModalSlider images={Data.images} />
                                         </ModalBody>
                                     </>
                                 )}
@@ -232,23 +236,23 @@ function RoomsPage() {
                     <div className="grid lg:grid-cols-4 md:grid-cols-3 grid-cols-2 gap-2">
                         <div className="w-full h-10 border rounded-xl border-black flex items-center justify-center gap-2">
                             <IoBedOutline className="w-6 h-6" />
-                            <span>{rooms.beds} {rooms.beds > 1 ? 'beds' : 'bed'}</span>
+                            <span>{Data.beds} {Data.beds > 1 ? 'beds' : 'bed'}</span>
                         </div>
                         <div className="w-full h-10 border border-black rounded-xl flex items-center justify-center gap-2">
                             <IoPersonOutline className="w-6 h-6" />
-                            <span>{rooms.guest} {rooms.guest > 1 ? 'guests' : 'guest'}</span>
+                            <span>{Data.guest} {Data.guest > 1 ? 'guests' : 'guest'}</span>
                         </div>
                         <div className="w-full h-10 border border-black rounded-xl flex items-center justify-center gap-2">
                             <SlSizeFullscreen className="w-6 h-6" />
-                            <span>{rooms.size} sqm</span>
+                            <span>{Data.size} sqm</span>
                         </div>
                         <div className="lg:w-[300px] h-10 border border-black rounded-xl flex items-center justify-center gap-2">
                             <IoWifiOutline className="w-6 h-6" />
-                            <span>{rooms.wifi}</span>
+                            <span>{Data.wifi}</span>
                         </div>
                         <div className="lg:w-[300px] h-10 border border-black rounded-xl flex items-center justify-center gap-2 max-md:col-span-2">
                             <PiBathtubLight className="w-6 h-6" />
-                            <span >{rooms.bathroom}</span>
+                            <span >{Data.bathroom}</span>
                         </div>
                     </div>
                 </div>
@@ -257,13 +261,13 @@ function RoomsPage() {
                         <div className='mt-10'>
                             <h1 className=' text-2xl'>Overview</h1>
                             <p className='mt-5'>
-                                {rooms.description}
+                                {Data.description}
                             </p>
                         </div>
                         <div className='mt-10'>
                             <h1 className='text-2xl'>Additional Information</h1>
                             <p className='mt-5'>
-                                {rooms.additionalInfo}
+                                {Data.additionalInfo}
                             </p>
                             <div className='mt-5'>
                                 <h1 className='mb-2'>Contact Us for more information:</h1>
@@ -349,7 +353,7 @@ function RoomsPage() {
                                                         onSelectionChange={(keys) => handleGuestsChange(keys)}
                                                     >
                                                         <DropdownItem key="1">1 Guest</DropdownItem>
-                                                        {rooms.price2 && (
+                                                        {Data.price2 && (
                                                             <DropdownItem key="2">2 Guests</DropdownItem>
                                                         )}
                                                     </DropdownMenu>
