@@ -121,7 +121,6 @@ function RoomsPage() {
         }
     };
 
-
     return (
         <>
             <title>{Data.title}</title>
