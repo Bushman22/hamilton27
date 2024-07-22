@@ -130,7 +130,7 @@ function RoomsPage() {
             <meta property="og:description" content={Data.description} />
             <meta property="og:type" content="website" />
             <meta property="og:url" content={`https://27hamilton.co.za/${Data.slug}`} />
-            <meta property="og:image" content={`https://27hamilton.co.za${Data.image[0].href}`} />
+            <meta property="og:image" content={`https://27hamilton.co.za${Data.images[0].href}`} />
 
             <div>
                 <Link href="/accommodation" color='foreground'>
