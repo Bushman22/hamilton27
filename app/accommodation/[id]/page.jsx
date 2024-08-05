@@ -33,8 +33,10 @@ function RoomsPage() {
     const [isSubmitted, setIsSubmitted] = useState(false);
     const [error, setError] = useState(false)
 
+    const Data = RoomData.find((b) => b.slug === slug);
+
     const [formData, setFormData] = useState({
-        selectedRoom: '',
+        selectedRoom: Data.title,
         name: '',
         email: '',
         phone: '',
@@ -44,8 +46,6 @@ function RoomsPage() {
     });
 
     const formatter = useDateFormatter({ dateStyle: 'full' });
-
-    const Data = RoomData.find((b) => b.slug === slug);
 
     if (!Data) {
         return <div>Room not found</div>;

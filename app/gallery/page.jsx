@@ -126,7 +126,7 @@ function Gallery() {
             <Modal isOpen={isOpen} onOpenChange={onOpenChange} size='3xl' className='px-0 max-h-[90%]' placement='center'>
                 <ModalContent>
                     <ModalHeader>
-                     
+
                     </ModalHeader>
                     <ModalBody className='px-5 pb-2'>
                         <div className='w-full'>
@@ -140,11 +140,10 @@ function Gallery() {
                         </div>
                     </ModalBody>
                     <ModalFooter>
-                        
+
                     </ModalFooter>
                 </ModalContent>
             </Modal>
-
         </div>
     );
 }
