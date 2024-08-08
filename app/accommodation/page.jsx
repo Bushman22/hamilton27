@@ -22,7 +22,7 @@ function Accommodation() {
                         price={item.price}
                         price1={item.price1}
                         price2={item.price2}
-                        image={item.image}
+                        image={item.images[0].href}
                         rating={item.rating}
                         beds={item.beds}
                         guest={item.guest}
